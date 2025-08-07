@@ -1,0 +1,69 @@
+.buttondarkest {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 25px;
+  letter-spacing: .02em;
+  /* height: 50px; */
+  width: fit-content;
+   /* Add transparent border by default */
+  padding: 23px 17px 23px 29px;
+  /* padding-right: 25px; */
+  border-radius: 26px;
+  cursor: pointer;
+  background-color: #c8d7de;
+  color: white;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.1s ease; /* Update to transition all properties */
+}
+
+.buttondarkest::before {
+  content: "";
+  position: absolute;
+  
+  right: 1px;
+  width: 44px;
+  height: 44px;
+  border-radius: 27px;
+  background-color: #c8d7de;
+  transition: all 0.4s ease-in-out;
+  z-index: -1;
+  transform-origin: right center;
+}
+
+.arrowIcon {
+  position: absolute;
+  right: 16px;
+  fill: #15161A;
+  transition: fill 0.4s ease;
+}
+
+/* Hover states */
+.buttondarkest:hover {
+  border-color: #c8d7de; /* Add light border on hover */
+}
+
+.buttondarkest:hover::before {
+  background-color: black;
+}
+
+.buttondarkest:hover .arrowIcon {
+  fill: white;
+}
+/* New hover states for card */
+.card:hover .buttondarkest {
+  border-color: #c8d7de;
+}
+
+.card:hover .buttondarkest::before {
+  background-color: black;
+}
+
+.card:hover .buttondarkest .arrowIcon {
+  fill: white;
+}

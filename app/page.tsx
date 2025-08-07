@@ -3,11 +3,14 @@
 import type React from "react"
 import { Navbar } from "@/components/navbar/navbar";
 import { HeroSection } from "@/components/heroSection/heroSection"
-import {TrustedSection} from "@/components/paitentSection/patient";
 import LifestyleSection from "@/components/lifeStyle/lifeStyle";
 import ConSultant from "@/components/consultation/ConSultant";
 import Testimonials from "../components/testimonial/testimonial";
 import Footer from "../components/footer/footer";
+import DocTestimonial from "../components/DocTestimonial/DocTestimonial";
+import { TrustedSection } from "@/components/trusted/TrustedSection";
+import { WhyDifferentSection } from "@/components/WhyDifferentSection/WhyDifferentSection";
+
 
 export default function OrthoFXHomepage() {
   // This function is passed to the Header component for smooth scrolling
@@ -27,11 +30,14 @@ export default function OrthoFXHomepage() {
     <div className="min-h-screen bg-white">
       <Navbar handleSmoothScroll={handleSmoothScroll} />
       <HeroSection />
-      <TrustedSection/>
+      <TrustedSection />
+      <WhyDifferentSection />
       <LifestyleSection/>
       <ConSultant/>
       <Testimonials />
+      <DocTestimonial />
       <Footer />
+      
     </div>
   )
 }

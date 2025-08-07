@@ -1,6 +1,18 @@
 import type { Metadata } from "next";
 import {Space_Grotesk, Baskervville } from "next/font/google";
 import "./globals.css";
+// pages/_app.tsx or app/layout.tsx if using App Router
+import "@fontsource/inter/400.css";  // Regular
+import "@fontsource/inter/500.css";  // Medium
+import "@fontsource/inter/700.css";  // Bold
+
+// ⬆️ These load only the weights you actually need (saves performance)
+
+// Rest of your app entry stuff
+
+
+
+
 
 const grostek = Space_Grotesk({
   variable: "--font-grostek",

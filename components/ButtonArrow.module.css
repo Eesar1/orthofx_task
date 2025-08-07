@@ -1,0 +1,62 @@
+.ButtonArrow_button__K1nCt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 25px;
+  letter-spacing: .02em;
+  height: 50px;
+  width: fit-content;
+  padding: 10px 25px;
+  padding-right: 58px; /* Space for arrow */
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  background-color: white;
+  
+  color: #15161a;
+  overflow: hidden; /* Keep everything contained */
+  z-index: 1;
+  transition: color 0.1s ease;
+}
+
+.ButtonArrow_button__K1nCt::before {
+  content: "";
+  position: absolute;
+  top: 4px; /* Adjusted to match button padding */
+  
+  right: 4px; /* Start from the right */
+  
+  width: 44px; /* Initial circle size */
+  height: 44px;
+  border-radius: 24px;
+  background-color: #c8d7de;
+  background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2218%22%20height%3D%2210%22%20viewBox%3D%220%200%2018%2010%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M9.72725%209.36364C9.72725%209.36364%2013.3636%206.45455%2017.7273%205C13.3636%203.54546%209.72725%200.636368%209.72725%200.636368C9.72725%200.636368%2010.6576%202.49698%2011.9454%204.5H0.272705V5.5H11.9454C10.6576%207.50303%209.72725%209.36364%209.72725%209.36364Z%22%20fill%3D%22%2315161A%22%2F%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center right 12px;
+  transition: all 0.4s ease-in-out;
+  z-index: -1; /* Place behind text */
+  transform-origin: right center ;
+}
+
+/* Hover State: Expand from right to left */
+.ButtonArrow_button__K1nCt:hover::before {
+  right: 4px;
+  
+   top: 4px;
+  width: calc(100% - 8px); /* Accounts for 4px gap on each side */
+  border-radius: 24px;
+  
+  background-position: calc(100% - 14px) center; /* Keep arrow on right */
+}
+
+/* Text styling - ensure it's always visible */
+.ButtonArrow_button__K1nCt > span {
+  position: relative;
+  z-index: 1;
+  transition: color 0.1s ease;
+}
+

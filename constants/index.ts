@@ -1,3 +1,5 @@
+import { Description } from "@radix-ui/react-dialog";
+
 export const Cards = [
   {
     image: "/man.png",
@@ -12,13 +14,17 @@ export const Cards = [
     image: "/blonde.png",
     title: "FXBright™",
     title2: " aligners",
+    description:"Enjoy  whiter teeth from the start of your orthodontic treatment \n✓ Chemical-free whitening effect \n✓ Enhanced comfort \n✓ Effortlessly straighter appearance** \n✓ Standard 22-hour wear time",
     type: "arrow",
+    cta: "Learn more",
   },
   {
     image: "/curly.png",
     title: "FXClear™ ",
     title2:"aligners",
+    description:"Custom-made for a precise, comfortable fit, FXClear Aligners align your teeth effortlessly, letting you go about your day with confidence \n✓ Enhanced comfort and fit \n✓ Predictable results** \n✓ Standard 22-hour wear time",
     type: "arrow",
+    cta: "Learn more",
   },
 ];
 export const steps=[

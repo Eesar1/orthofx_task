@@ -1,0 +1,60 @@
+/* ButtonArrowDark.module.css */
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 25px;
+  letter-spacing: .02em;
+  height: 50px;
+  width: fit-content;
+  padding: 10px 25px;
+  padding-right: 58px;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  background-color: #292930;
+  color: white;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  top: 3.5px;
+  right: 4px;
+  width: 44px;
+  height: 44px;
+  border-radius: 23px;
+  background-color: #c8d7de;
+  background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2012%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M13%2012C13%2012%2018%208%2024%206C18%204%2013%200%2013%200C13%200%2014.3378%202.6756%2016.1711%205.5H0V6.5H16.1711C14.3378%209.3244%2013%2012%2013%2012Z%22%20fill%3D%22%2315161A%22%2F%3E%0A%3C%2Fsvg%3E%0A");
+  background-repeat: no-repeat;
+  background-position: center right 10px;
+  transition: all 0.1s ease-in-out;
+  z-index: -1;
+  transform-origin: right center;
+}
+
+.button:hover::before {
+  right: 4px;
+  top: 3.5px;
+  width: calc(100% - 8px);
+  border-radius: 24px;
+  
+  background-position: calc(100% - 14px) center;
+}
+
+.button > span {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.button:hover {
+  color: black;
+}

@@ -3,6 +3,7 @@
 import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
+import styles from "@/components/ButtonArrow.module.css";
 import { ChevronDown, Menu, X, User } from "lucide-react"
 
 interface HeaderProps {
@@ -14,6 +15,8 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
   const [openDropdown, setOpenDropdown] = useState<"products" | "services" | null>(null)
   const [isScrolled, setIsScrolled] = useState(false)
   const [navStyle, setNavStyle] = useState<"light" | "dark">("light")
+  const [isAtTop, setIsAtTop] = useState(true)
+  const [isBeyond100vh, setIsBeyond100vh] = useState(false)
   const lastScrollY = useRef(0)
   const headerRef = useRef<HTMLElement>(null)
 
@@ -21,6 +24,12 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
+      
+      // Check if at top of page
+      setIsAtTop(currentScrollY === 0)
+      
+      // Check if beyond 100vh
+      setIsBeyond100vh(currentScrollY > window.innerHeight)
       
       // Hide/show navbar based on scroll direction
       if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
@@ -31,7 +40,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
       lastScrollY.current = currentScrollY
       
       // Determine nav style based on background color
-      if (headerRef.current) {
+      if (headerRef.current && !isBeyond100vh) {
         const headerRect = headerRef.current.getBoundingClientRect()
         const elementBelow = document.elementFromPoint(
           window.innerWidth / 2,
@@ -48,7 +57,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [isBeyond100vh])
 
   // Check if color is dark
   const isColorDark = (color: string): boolean => {
@@ -83,72 +92,84 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  // Determine styles based on scroll position
+  const shouldUseDarkMode = isBeyond100vh && !isAtTop;
+  const textColor = shouldUseDarkMode ? "text-white" : 
+                   isAtTop ? "text-[#15161a]" : 
+                   navStyle === "light" ? "text-white" : "text-[#15161a]";
+                   
+  const bgColor = shouldUseDarkMode ? "bg-[#15161a]" : 
+                 isAtTop ? "bg-transparent" : 
+                 navStyle === "light" ? "bg-[#15161a]" : "bg-white";
+
   return (
     <>
       <header 
         ref={headerRef}
-        className={`flex items-center justify-between px-6 md:px-8 py-4 md:py-6 fixed w-full top-0 z-50 transition-all duration-300 ${
+        className={`flex items-center justify-between px-3 md:px-16 py-4 md:py-6 fixed w-full top-0 z-50 transition-all duration-300 ${
           isScrolled ? "-translate-y-full" : "translate-y-0"
-        } ${
-          navStyle === "dark" 
-            ? "bg-black/80 backdrop-blur-sm text-white" 
-            : "bg-white/80 backdrop-blur-sm text-black"
-        }`}
+        } ${bgColor} ${isMobileMenuOpen ? 'xl:flex hidden' : 'flex'}`}
       >
-        <div className="text-2xl md:text-3xl font-bold tracking-tight">
-          <span>Ortho</span>
-          <span className="font-Baskervville">FX</span>
+        {/* Logo */}
+        <div className={`text-2xl md:text-3xl font-bold tracking-tight ${textColor}`}>
+        <img
+           src="/logo.svg"
+           alt="Logo"
+            className={`
+              
+               transition-all duration-300
+                ${!(shouldUseDarkMode || navStyle === "light") ? "invert" : ""}
+  `}/>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden xl:flex items-center space-x-6 lg:space-x-8">
+        <nav className={`hidden xl:flex mr-auto space-x-4 lg:space-x-3`}>
           {/* OrthoFX Difference */}
-          <div className="relative group cursor-pointer flex items-center">
+          <div className="relative group cursor-pointer">
             <a
               href="#difference"
               onClick={(e) => handleSmoothScroll(e, "difference")}
-              className="relative z-10 px-3 py-1 text-sm font-medium whitespace-nowrap"
+              className={`relative z-10 px-3 py-2 font-NeGrotesk ml-5 text-sm ${textColor} hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out`}
             >
               OrthoFX Difference
             </a>
-            <span className="absolute inset-0 group-hover:bg-blue-100 group-hover:rounded-md transition-all duration-300 ease-in-out z-0" />
           </div>
 
           {/* Products Dropdown */}
           <div className="relative dropdown-container">
             <button 
               onClick={() => toggleDropdown("products")}
-              className="relative z-10 px-3 py-1 text-sm group-hover:bg-blue-100 font-medium whitespace-nowrap flex items-center"
+              className={`relative z-10 font-NeGrotesk px-3 py-1 text-sm hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap flex items-center ${textColor}`}
             >
               Products
-              <ChevronDown className={`w-4 h-4 ml-1  transition-transform ${openDropdown === "products" ? "rotate-180" : ""}`} />
+              <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${openDropdown === "products" ? "rotate-180" : ""}`} />
             </button>
 
             {openDropdown === "products" && (
               <div 
-                className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg z-50 min-w-[200px]"
+                className="absolute top-full left-0 mt-2 bg-[#15161a] rounded-md shadow-lg z-50 min-w-[200px]"
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 <a 
                   href="/products/airflex" 
-                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                  className="block px-4 py-3 text-sm text-[#C5EDF7] transition-colors "
                 >
-                  <div className="font-medium">AirFlex™</div>
-                  <div className="text-xs text-gray-500 mt-1">FDA-cleared aligner system</div>
+                  <div className="font-light font-NeGrotesk text-white">AirFlex™</div>
+                  <div className="text-xs font-NeGrotesk  text-[#9aa7ac] mt-1">FDA-cleared aligner system</div>
                 </a>
                 <a 
                   href="/products/fxclear" 
-                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                  className="block px-4 py-3 font-NeGrotesk text-sm text-[#C5EDF7]  transition-colors "
                 >
-                  <div className="font-medium">FXClear™</div>
-                  <div className="text-xs text-gray-500 mt-1">Advanced technology aligners</div>
+                  <div className="font-light font-NeGrotesk text-white">FXClear™</div>
+                  <div className="text-xs font-NeGrotesk  text-[#9aa7ac] mt-1">Advanced technology aligners</div>
                 </a>
                 <a 
                   href="/products/fxbright" 
-                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors"
+                  className="block px-4 py-3 font-NeGrotesk text-sm text-[#C5EDF7]  transition-colors"
                 >
-                  <div className="font-medium">FXBright™</div>
-                  <div className="text-xs text-gray-500 mt-1">Teeth whitening aligners</div>
+                  <div className="font-light font-NeGrotesk text-white">FXBright™</div>
+                  <div className="text-xs font-NeGrotesk  text-[#9aa7ac] mt-1">Teeth whitening aligners</div>
                 </a>
               </div>
             )}
@@ -158,7 +179,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
           <div className="relative dropdown-container">
             <button 
               onClick={() => toggleDropdown("services")}
-              className="relative z-10 px-3 py-1 text-sm font-medium whitespace-nowrap flex items-center"
+              className={`relative z-10 px-3 py-1 text-sm font-NeGrotesk font-light hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap flex items-center ${textColor}`}
             >
               Services
               <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${openDropdown === "services" ? "rotate-180" : ""}`} />
@@ -166,197 +187,282 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
 
             {openDropdown === "services" && (
               <div 
-                className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg z-50 min-w-[200px]"
+                className="absolute top-full left-0 mt-2 bg-[#15161a]  rounded-md shadow-lg z-50 min-w-[200px]"
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 <a 
                   href="/services/fxpay" 
-                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                  className="block px-4 py-3 text-sm text-[#C5EDF7] transition-colors "
                 >
-                  <div className="font-medium">FXPay™</div>
-                  <div className="text-xs text-gray-500 mt-1">Flexible payment plans</div>
+                  <div className="font-light font-NeGrotesk text-white">FXPay™</div>
+                  <div className="text-xs font-NeGrotesk text-[#9aa7ac] mt-1">Flexible payment plans</div>
                 </a>
                 <a 
                   href="/services/fxontrack" 
-                  className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition-colors"
+                  className="block px-4 py-3 text-sm text-[#C5EDF7]  transition-colors"
                 >
-                  <div className="font-medium">FXOnTrack™</div>
-                  <div className="text-xs text-gray-500 mt-1">AI-powered progress tracking</div>
+                  <div className="font-light font-NeGrotesk text-white">FXOnTrack™</div>
+                  <div className="text-xs font-NeGrotesk  text-[#9aa7ac] mt-1">AI-powered progress tracking</div>
                 </a>
               </div>
             )}
           </div>
 
           {/* Smile Results */}
-          <div className="relative group cursor-pointer flex items-center">
+          <div className="relative group cursor-pointer">
             <a
               href="#results"
               onClick={(e) => handleSmoothScroll(e, "results")}
-              className="relative z-10 px-3 py-1 text-sm font-medium whitespace-nowrap"
+              className={`relative z-10 px-3 py-2 font-NeGrotesk text-sm font-light hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap ${textColor}`}
             >
               Smile Results
             </a>
-            <span className="absolute inset-0 group-hover:bg-blue-100 group-hover:rounded-md transition-all duration-300 ease-in-out z-0" />
           </div>
 
           {/* Smile Quiz */}
-          <div className="relative group cursor-pointer flex items-center">
+          <div className="relative group cursor-pointer">
             <a
               href="#quiz"
               onClick={(e) => handleSmoothScroll(e, "quiz")}
-              className="relative z-10 px-3 py-1 text-sm font-medium whitespace-nowrap"
+              className={`relative z-10 px-3 font-NeGrotesk py-2 text-sm font-light hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap ${textColor}`}
             >
               Smile Quiz
             </a>
-            <span className="absolute inset-0 group-hover:bg-blue-100 group-hover:rounded-md transition-all duration-300 ease-in-out z-0" />
           </div>
         </nav>
 
         {/* Desktop Buttons and Mobile Menu Toggle */}
         <div className="flex items-center space-x-4 md:space-x-6">
           <Button className={`${
-            navStyle === "dark" 
-              ? "bg-white text-black hover:bg-gray-200" 
-              : "bg-black text-white hover:bg-gray-800"
-          } rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 whitespace-nowrap hidden xl:inline-flex`}>
+            isAtTop 
+              ? "bg-[#292930] text-white hover:text-black hover:bg-white" 
+              : shouldUseDarkMode 
+                ? "bg-[#292930] text-white hover:bg-gray-200"
+                : navStyle === "light" 
+                  ? "bg-white text-[#15161a] hover:bg-gray-300" 
+                  : "bg-black text-white hover:bg-gray-500"
+          } rounded-full px-5 py-2.5 text-sm font-NeGrotesk transition-all duration-200 whitespace-nowrap hidden xl:inline-flex`}>
             Become a provider
           </Button>
           <Button
-            variant="ghost"
+            variant={shouldUseDarkMode ? "ghost" : undefined}
             size="icon"
-            className={`rounded-full ${
-              navStyle === "dark" 
-                ? "bg-white/20 text-white hover:bg-white/30" 
-                : "bg-black/10 text-black hover:bg-black/20"
-            } w-9 h-9 md:w-10 md:h-10 flex-shrink-0 hidden xl:flex`}
+            className={`rounded-full w-9 h-9 md:w-10 md:h-10 flex-shrink-0 hidden xl:flex ${
+              isAtTop 
+                ? "bg-[#292930] text-white hover:text-black hover:bg-white" 
+                : shouldUseDarkMode 
+                  ? "text-white bg-[#292930] hover:bg-gray-800"
+                  : navStyle === "light" 
+                    ? "bg-white text-[#15161a] hover:bg-gray-200" 
+                    : "bg-black text-white hover:bg-gray-800"
+            }`}
           >
             <User className="w-4 h-4" />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`rounded-full w-9 h-9 flex-shrink-0 xl:hidden ${
-              navStyle === "dark" ? "text-white" : "text-black"
-            }`}
-            onClick={toggleMobileMenu}
-            aria-label="Toggle mobile menu"
-          >
-            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </Button>
+          
+          
+<div
+  onClick={toggleMobileMenu}
+  className={`cursor-pointer xl:hidden flex flex-col justify-center items-center w-8 h-8 relative group transition-all duration-300`}
+>
+  <div className="relative flex flex-col justify-center items-center h-6 w-6">
+  {/* Top bar */}
+  <div
+    className="absolute h-[2px] transition-all duration-300 origin-center"
+    style={{
+      width: "24px",
+      background: isMobileMenuOpen ? "#fff" : (shouldUseDarkMode || navStyle === "light" ? "#fff" : "#000"),
+      transform: isMobileMenuOpen
+        ? "rotate(45deg) translateY(0px)"
+        : "translateY(-6px)",
+      top: "50%",
+      marginTop: "-1px",
+    }}
+  />
+
+  {/* Middle bar */}
+  <div
+    className="absolute h-[2px] transition-all duration-300 origin-center"
+    style={{
+      width: "24px",
+      background: isMobileMenuOpen ? "#fff" : (shouldUseDarkMode || navStyle === "light" ? "#fff" : "#000"),
+      opacity: isMobileMenuOpen ? 0 : 1,
+      top: "50%",
+      marginTop: "-1px",
+    }}
+  />
+
+  {/* Bottom bar */}
+  <div
+    className="absolute h-[2px] transition-all duration-300 origin-center"
+    style={{
+      width: isMobileMenuOpen ? "24px" : "16px", // Short when closed
+      left: isMobileMenuOpen ? "auto" : "0",      // Align left when closed
+      background: isMobileMenuOpen ? "#fff" : (shouldUseDarkMode || navStyle === "light" ? "#fff" : "#000"),
+      transform: isMobileMenuOpen
+        ? "rotate(-45deg) translateY(0px)"
+        : "translateY(6px)",
+      top: "50%",
+      marginTop: "-1px",
+    }}
+  />
+
+  {/* Close text */}
+  {isMobileMenuOpen && (
+    <div className="absolute -bottom-5 text-xs text-center w-full transition-opacity duration-300 text-white">
+      Close
+    </div>
+  )}
+</div>
+
+</div>
         </div>
       </header>
 
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-white/95 backdrop-blur-md z-40 flex flex-col items-center justify-center xl:hidden pt-20">
-          <nav className="flex flex-col items-center space-y-6 w-full max-w-md px-6">
-            <a
-              href="#difference"
-              className="w-full text-center py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-              onClick={(e) => {
-                handleSmoothScroll(e, "difference")
-                toggleMobileMenu()
-              }}
-            >
-              OrthoFX Difference
-            </a>
+      <div className={`fixed inset-0 bg-[#15161a] z-40 xl:hidden transition-all duration-500 ease-in-out ${
+        isMobileMenuOpen 
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 -translate-y-full pointer-events-none'
+      }`}>
+        <div className={`flex flex-col items-start justify-start px-6 pt-24 overflow-y-auto h-full transition-transform duration-500 ease-in-out ${
+          isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+        }`}>
+          {/* Mobile Menu Close Button */}
+          <div
+            onClick={toggleMobileMenu}
+            className="fixed top-6 right-6 z-50 cursor-pointer flex items-center gap-2"
+          >
+            <div className="relative flex flex-col justify-center items-center h-6 w-6">
+              {/* X Icon */}
+              <div
+                className="absolute h-[2px] transition-all duration-300 origin-center"
+                style={{
+                  width: "24px",
+                  background: "#fff",
+                  transform: "rotate(45deg) translateY(0px)",
+                  top: "50%",
+                  marginTop: "-1px",
+                }}
+              />
+              <div
+                className="absolute h-[2px] transition-all duration-300 origin-center"
+                style={{
+                  width: "24px",
+                  background: "#fff",
+                  transform: "rotate(-45deg) translateY(0px)",
+                  top: "50%",
+                  marginTop: "-1px",
+                }}
+              />
+            </div>
             
-            {/* Products dropdown in mobile */}
-            <div className="w-full">
-              <button 
-                onClick={() => toggleDropdown("products")}
-                className="w-full text-center py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-center"
-              >
-                Products
-                <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${openDropdown === "products" ? "rotate-180" : ""}`} />
-              </button>
-              
-              {openDropdown === "products" && (
-                <div className="mt-2 bg-gray-50 rounded-lg py-2">
-                  <a 
-                    href="/products/airflex" 
-                    className="block px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                    onClick={toggleMobileMenu}
-                  >
-                    AirFlex™
-                  </a>
-                  <a 
-                    href="/products/fxclear" 
-                    className="block px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                    onClick={toggleMobileMenu}
-                  >
-                    FXClear™
-                  </a>
-                  <a 
-                    href="/products/fxbright" 
-                    className="block px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                    onClick={toggleMobileMenu}
-                  >
-                    FXBright™
-                  </a>
-                </div>
-              )}
+            {/* Close text next to X */}
+            <div className="text-sm text-white font-light">
+              Close
             </div>
+          </div>
 
-            {/* Services dropdown in mobile */}
-            <div className="w-full">
-              <button 
-                onClick={() => toggleDropdown("services")}
-                className="w-full text-center py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-center"
-              >
-                Services
-                <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${openDropdown === "services" ? "rotate-180" : ""}`} />
-              </button>
-              
-              {openDropdown === "services" && (
-                <div className="mt-2 bg-gray-50 rounded-lg py-2">
-                  <a 
-                    href="/services/fxpay" 
-                    className="block px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                    onClick={toggleMobileMenu}
-                  >
-                    FXPay™
-                  </a>
-                  <a 
-                    href="/services/fxontrack" 
-                    className="block px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
-                    onClick={toggleMobileMenu}
-                  >
-                    FXOnTrack™
-                  </a>
-                </div>
-              )}
-            </div>
+          <nav className="flex flex-col items-start space-y-6 w-full max-w-md">
+      
+      {/* Section Label */}
+      <span className="text-[#C5EDF7] text-2xl font-liBaskerville">Company</span>
 
-            <a
-              href="#results"
-              className="w-full text-center py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-              onClick={(e) => {
-                handleSmoothScroll(e, "results")
-                toggleMobileMenu()
-              }}
-            >
-              Smile Results
-            </a>
-            <a
-              href="#quiz"
-              className="w-full text-center py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-              onClick={(e) => {
-                handleSmoothScroll(e, "quiz")
-                toggleMobileMenu()
-              }}
-            >
-              Smile Quiz
-            </a>
-            <Button
-              className="w-full bg-black text-white rounded-full py-3 text-base font-medium transition-all duration-200 mt-4"
-              onClick={toggleMobileMenu}
-            >
-              Become a provider
-            </Button>
-          </nav>
+      {/* Simple Links */}
+      {[
+        { href: "#difference", label: "OrthoFX Difference" },
+        { href: "#results", label: "Smile Results" },
+        { href: "#quiz", label: "Smile Quiz" },
+      ].map(({ href, label }) => (
+        <a
+          key={label}
+          href={href}
+          className="py-0 text-[#C5EDF7] text-base w-full"
+          onClick={(e) => {
+            handleSmoothScroll(e, href.replace("#", ""));
+            toggleMobileMenu();
+          }}
+        >
+          {label}
+        </a>
+      ))}
+
+      {/* Products Section */}
+      <span className="text-[#C5EDF7] font-liBaskerville  text-xl mt-6">Products</span>
+
+      {[
+        {
+          href: "/products/airflex",
+          title: "AirFlex™",
+          desc: "The first FDA-cleared aligner system for at least 12 hours of continuous daily wear time.",
+        },
+        {
+          href: "/products/fxclear",
+          title: "FXClear™",
+          desc: "Combining advanced technology and remote monitoring to keep your treatment on track comfortably.",
+        },
+        {
+          href: "/products/fxbright",
+          title: "FXBright™",
+          desc: "Enjoy effortless whiter teeth from the start of your orthodontic treatment.",
+        },
+        {
+          href: "/products/fxretainers",
+          title: "FXRetainers",
+          desc: "Keep your smile straighter and brighter for long-lasting results.",
+        },
+      ].map(({ href, title, desc }) => (
+        <a
+          key={title}
+          href={href}
+          className="block py-2 text-[#C5EDF7] w-full"
+          onClick={toggleMobileMenu}
+        >
+          <h4 className="text-base text-white font-NeGrotesk ">{title}</h4>
+          <p className="text-sm font-NeGrotesk text-[#90CFE8]">{desc}</p>
+        </a>
+      ))}
+
+      {/* Services Section */}
+      <span className="text-[#C5EDF7] font-liBaskerville text-xl   mt-6">Services</span>
+
+      {[
+        {
+          href: "/services/fxpay",
+          title: "FXPay™",
+          desc: "Flexible payment plans to keep you covered.",
+        },
+        {
+          href: "/services/fxontrack",
+          title: "FXOnTrack™",
+          desc: "AI-powered platform that enables your doctor to monitor your progress remotely.",
+        },
+      ].map(({ href, title, desc }) => (
+        <a
+          key={title}
+          href={href}
+          className="block py-2 text-[#C5EDF7] w-full"
+          onClick={toggleMobileMenu}
+        >
+          <h4 className="text-base text-white font-semibold">{title}</h4>
+          <p className="text-sm text-[#90CFE8]">{desc}</p>
+        </a>
+      ))}
+
+      {/* Buttons */}
+      <div className="flex flex-row sticky bottom-0 z-50 items-center justify-center gap-4 mt-8 w-full">
+         <Button
+    className="bg-[#292930] text-white hover:bg-gray-200 rounded-full w-47 h-12 px-5 py-2.5 text-sm font-light transition-all duration-200 whitespace-nowrap xl:inline-flex"
+  >
+    Become a provider
+  </Button>
+        <Button className={styles.ButtonArrow_button__K1nCt}>
+          <span>Find a doctor</span>
+        </Button>
+      </div>
+    </nav>
         </div>
-      )}
+      </div>
     </>
   )
 }

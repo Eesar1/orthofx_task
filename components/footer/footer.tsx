@@ -3,93 +3,86 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-
-        {/* Top Section: 3 Columns in One Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Company Column */}
-          <div>
-            <h3 className="text-xl font-liBaskervillefont-bold mb-6 border-b border-gray-700 pb-2">Company</h3>
-            <ul className="space-y-4">
-              {[
-                { title: "About", href: "#" },
-                { title: "OrthoFX Difference", href: "#" },
-              ].map((item, i) => (
-                <li key={i}>
-                  <Link href={item.href} className="text-gray-400 hover:text-white transition">
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-       
-          {/* Products Column */}
-          <div>
-            <h3 className="text-xl font-bold mb-6 border-b font-liBaskerville border-gray-700 pb-2">Products</h3>
-            <ul className="space-y-4">
-              {[
-                "AirFlex™",
-                "FXClear™",
-                "FXBright™",
-                "FXRetainers",
-                "FXPay™",
-                "FXOnTrack™",
-                "Directions for Use",
-              ].map((item, i) => (
-                <li key={i}>
-                  <Link href="#" className="text-gray-400 hover:text-white transition">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources Column */}
-          <div>
-            <h3 className="text-xl font-bold mb-6 font-liBaskerville border-b border-gray-700 pb-2">Resources</h3>
-            <ul className="space-y-4">
-              {[
-                "Find a Doctor",
-                "FXOnTrack Photo Guide",
-                "Blog",
-                "FAQ",
-                "Press",
-                "Events & Webinars",
-                "Terms & Conditions",
-              ].map((item, i) => (
-                <li key={i}>
-                  <Link href="#" className="text-gray-400 hover:text-white transition">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-          
-
-        {/* Divider */}
-        <div className="border-t border-gray-800 my-12"></div>
-
-        {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} OrthoFX. All rights reserved.
-          </div>
-
-          <div className="flex items-center space-x-6">
-            {["Privacy Policy", "Terms of Use", "Cookie Policy"].map((label, i) => (
-              <Link key={i} href="#" className="text-gray-500 hover:text-white transition text-sm">
-                {label}
+  <footer className="bg-[#15161a] text-white">
+    {/* divider */}
+    <div className="border-t border-[#d9edf7]"></div>
+  <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-10 pt-8 pb-8">  {/* changed pt-16 to pt-8 */}
+  {/* Top Section: 3 Columns in One Row */}
+  <div className="grid grid-cols-3 md:grid-cols-3 ">
+    {/* Company Column */}
+    <div>
+      <h3 className="text-2xl font-liBaskerville mb-3 text-[#d9edf7] pb-1">Company</h3> {/* changed mb-6 to mb-3 */}
+      <ul className="space-y-4 font-NeGrotesk ">
+          {[
+            { title: "About", href: "#" },
+            { title: "OrthoFX Difference", href: "#" },
+          ].map((item, i) => (
+            <li key={i}>
+              <Link href={item.href} className="text-[#d9edf7] hover:text-[#d9edf7] transition">
+                {item.title}
               </Link>
-            ))}
-          </div>
-        </div>
+            </li>
+          ))}
+        </ul>
       </div>
-    </footer>
+
+      {/* Products Column */}
+      <div className="w-full px-4 md:px-6 lg:px-8 -ml-25"> 
+
+       <h3 className="text-2xl font-light mb-3 font-liBaskerville text-[#d9edf7] pb-2">Products</h3> {/* changed mb-6 to mb-3 */}
+         <ul className=" font-NeGrotesk space-y-4">
+          {[
+            "AirFlex™",
+            "FXClear™",
+            "FXBright™",
+            "FXRetainers",
+            "FXPay™",
+            "FXOnTrack™",
+            "Directions for Use",
+          ].map((item, i) => (
+            <li key={i}>
+              <Link href="#" className="text-[#d9edf7] hover:text-[#d9edf7] transition">  
+                {item}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Resources Column */}
+      <div className="w-full px-1 md:px-3 lg:px-1 -ml-35"> 
+        <h3 className="text-2xl mb-3 font-liBaskerville text-[#d9edf7] pb-2">Resources</h3> {/* changed mb-6 to mb-3 */}
+      <ul className="space-y-4 font-NeGrotesk ">
+          {[
+            "Find a Doctor",
+            "FXOnTrack Photo Guide",
+            "Blog",
+            "FAQ",
+            "Press",
+            "Events & Webinars",
+            "Terms & Conditions",
+          ].map((item, i) => (
+            <li key={i}>
+              <Link href="#" className="text-[#d9edf7] hover:text-[#d9edf7] transition">
+                {item}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  {/* Full-width SVG BELOW the content */}
+  <div className="w-full">
+    <img
+      src="/oortho-name.svg"
+      alt="OrthoFX logo"
+      className="w-full object-cover"
+    />
+  </div>
+</footer>
+
   );
 };
 

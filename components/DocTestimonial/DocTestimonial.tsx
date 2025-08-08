@@ -5,6 +5,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import styles from "@/components/ButtonArrowW.module.css";
 import darkstyles from "@/components/ButtonArrowDark.module.css";
+import gsap from 'gsap';
 
 const TestimonialsPage = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -127,18 +128,14 @@ const TestimonialsPage = () => {
     const gap = 24;
     const scrollPosition = index * (cardWidth + gap);
     
-    carouselRef.current.scrollTo({
-      left: scrollPosition,
-      behavior: 'smooth'
+    gsap.to(carouselRef.current, {
+      scrollLeft: scrollPosition,
+      duration: 0.6,
+      ease: "power2.out"
     });
     
     setCurrentIndex(index);
-    
-    // Check for infinite scroll reset after smooth scroll animation
-    setTimeout(() => {
-      checkInfiniteScroll();
-    }, 600);
-  }, [checkInfiniteScroll]);
+  }, []);
 
   const nextCard = useCallback(() => {
     let nextIndex = currentIndex + 1;
@@ -191,7 +188,7 @@ const TestimonialsPage = () => {
       
       const clampedIndex = Math.max(0, Math.min(newIndex, infiniteDoctors.length - 1));
       
-      // Smooth scroll to the snapped position
+      // Smooth scroll to the snapped position (will be handled by Lenis)
       carouselRef.current.scrollTo({
         left: clampedIndex * (cardWidth + gap),
         behavior: 'smooth'
@@ -235,12 +232,14 @@ const TestimonialsPage = () => {
           <div className="absolute right-4 sm:right-6 lg:right-8 -top-16 flex gap-2 z-10">
             <button 
               onClick={prevCard}
+              className="cursor-pointer"
               aria-label="Previous testimonial"
             >
               <img src="/arrow-left.svg" alt="" />
             </button>
             <button 
               onClick={nextCard}
+              className="cursor-pointer"
               aria-label="Next testimonial"
             >
               <img src="/arrow.svg" alt="" />
@@ -264,7 +263,6 @@ const TestimonialsPage = () => {
                 }, 100);
               }
             }}
-            style={{ scrollBehavior: "smooth" }}
           >
             {infiniteDoctors.map((doctor, index) => (
               <div

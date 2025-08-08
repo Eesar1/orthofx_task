@@ -1,1 +1,32 @@
-<svg width="44" height="44" viewBox="0 0 44 44"   xmlns="http://www.w3.org/2000/svg"><rect x="0.5" y="0.5" width="43" fill="transparent" height="43" rx="21.5" stroke="#C8D7DE"></rect><path d="M16 22C22 24 27 28 27 28C27 28 25.5 25 23.5 22C25.5 19 27 16 27 16C27 16 22 20 16 22Z" fill="#C8D7DE"></path></svg>
+<svg 
+  width="44" 
+  height="44" 
+  viewBox="0 0 44 44" 
+  xmlns="http://www.w3.org/2000/svg"
+  style={{
+    transition: 'opacity 0.3s ease',
+  }}
+  onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+  onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+>
+  <rect 
+    x="0.5" 
+    y="0.5" 
+    width="43" 
+    fill="transparent" 
+    height="43" 
+    rx="21.5" 
+    stroke="#C8D7DE"
+    style={{
+      transition: 'stroke-opacity 0.3s ease',
+    }}
+  ></rect>
+  <path 
+    d="M16 22C22 24 27 28 27 28C27 28 25.5 25 23.5 22C25.5 19 27 16 27 16C27 16 22 20 16 22Z" 
+    fill="#C8D7DE" 
+    opacity="0.3"
+    style={{
+      transition: 'opacity 0.3s ease',
+    }}
+  ></path>
+</svg>

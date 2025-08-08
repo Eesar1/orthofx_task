@@ -16,7 +16,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [navStyle, setNavStyle] = useState<"light" | "dark">("light")
   const [isAtTop, setIsAtTop] = useState(true)
-  const [isBeyond100vh, setIsBeyond100vh] = useState(false)
+  const [isBeyond121vh, setIsBeyond121vh] = useState(false)
   const lastScrollY = useRef(0)
   const headerRef = useRef<HTMLElement>(null)
 
@@ -28,8 +28,8 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
       // Check if at top of page
       setIsAtTop(currentScrollY === 0)
       
-      // Check if beyond 100vh
-      setIsBeyond100vh(currentScrollY > window.innerHeight)
+      // Check if beyond 121vh (121% of viewport height)
+      setIsBeyond121vh(currentScrollY > window.innerHeight * 1.21)
       
       // Hide/show navbar based on scroll direction
       if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
@@ -40,7 +40,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
       lastScrollY.current = currentScrollY
       
       // Determine nav style based on background color
-      if (headerRef.current && !isBeyond100vh) {
+      if (headerRef.current && !isBeyond121vh) {
         const headerRect = headerRef.current.getBoundingClientRect()
         const elementBelow = document.elementFromPoint(
           window.innerWidth / 2,
@@ -57,7 +57,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [isBeyond100vh])
+  }, [isBeyond121vh])
 
   // Check if color is dark
   const isColorDark = (color: string): boolean => {
@@ -93,7 +93,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
   }, [])
 
   // Determine styles based on scroll position
-  const shouldUseDarkMode = isBeyond100vh && !isAtTop;
+  const shouldUseDarkMode = isBeyond121vh && !isAtTop;
   const textColor = shouldUseDarkMode ? "text-white" : 
                    isAtTop ? "text-[#15161a]" : 
                    navStyle === "light" ? "text-white" : "text-[#15161a]";
@@ -129,7 +129,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
             <a
               href="#difference"
               onClick={(e) => handleSmoothScroll(e, "difference")}
-              className={`relative z-10 px-3 py-2 font-NeGrotesk ml-5 text-sm ${textColor} hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out`}
+              className={`relative z-10 px-3 py-2 font-NeGrotesk ml-5 text-m ${textColor} hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out`}
             >
               OrthoFX Difference
             </a>
@@ -139,7 +139,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
           <div className="relative dropdown-container">
             <button 
               onClick={() => toggleDropdown("products")}
-              className={`relative z-10 font-NeGrotesk px-3 py-1 text-sm hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap flex items-center ${textColor}`}
+              className={`relative z-10 font-NeGrotesk px-3 py-1 text-m hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap flex items-center ${textColor}`}
             >
               Products
               <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${openDropdown === "products" ? "rotate-180" : ""}`} />
@@ -179,7 +179,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
           <div className="relative dropdown-container">
             <button 
               onClick={() => toggleDropdown("services")}
-              className={`relative z-10 px-3 py-1 text-sm font-NeGrotesk font-light hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap flex items-center ${textColor}`}
+              className={`relative z-10 px-3 py-1 text-m font-NeGrotesk font-light hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap flex items-center ${textColor}`}
             >
               Services
               <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${openDropdown === "services" ? "rotate-180" : ""}`} />
@@ -213,7 +213,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
             <a
               href="#results"
               onClick={(e) => handleSmoothScroll(e, "results")}
-              className={`relative z-10 px-3 py-2 font-NeGrotesk text-sm font-light hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap ${textColor}`}
+              className={`relative z-10 px-3 py-2 font-NeGrotesk text-m font-light hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap ${textColor}`}
             >
               Smile Results
             </a>
@@ -224,7 +224,7 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
             <a
               href="#quiz"
               onClick={(e) => handleSmoothScroll(e, "quiz")}
-              className={`relative z-10 px-3 font-NeGrotesk py-2 text-sm font-light hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap ${textColor}`}
+              className={`relative z-10 px-3 font-NeGrotesk py-2 text-m font-light hover:bg-[#d9edf7] hover:rounded-md transition-all duration-300 ease-in-out whitespace-nowrap ${textColor}`}
             >
               Smile Quiz
             </a>
@@ -232,32 +232,32 @@ export function Navbar({ handleSmoothScroll }: HeaderProps) {
         </nav>
 
         {/* Desktop Buttons and Mobile Menu Toggle */}
-        <div className="flex items-center space-x-4 md:space-x-6">
+        <div className="flex items-center space-x-4 md:space-x-3">
           <Button className={`${
             isAtTop 
-              ? "bg-[#292930] text-white hover:text-black hover:bg-white" 
+              ? " text-white bg-[#292930] hover:text-black hover:bg-white" 
               : shouldUseDarkMode 
-                ? "bg-[#292930] text-white hover:bg-gray-200"
+                ? "bg-[#292930] text-white hover:text-black hover:bg-white"
                 : navStyle === "light" 
-                  ? "bg-white text-[#15161a] hover:bg-gray-300" 
-                  : "bg-black text-white hover:bg-gray-500"
-          } rounded-full px-5 py-2.5 text-sm font-NeGrotesk transition-all duration-200 whitespace-nowrap hidden xl:inline-flex`}>
+                  ? "bg-white text-white hover:bg-[#292930]" 
+                  : "bg-[#292930] hover:text-black hover:bg-white"
+          } rounded-full px-6 py-7 text-[15px] font-NeGrotesk transition-all duration-200 whitespace-nowrap hidden xl:inline-flex`}>
             Become a provider
           </Button>
           <Button
             variant={shouldUseDarkMode ? "ghost" : undefined}
             size="icon"
-            className={`rounded-full w-9 h-9 md:w-10 md:h-10 flex-shrink-0 hidden xl:flex ${
-              isAtTop 
-                ? "bg-[#292930] text-white hover:text-black hover:bg-white" 
-                : shouldUseDarkMode 
-                  ? "text-white bg-[#292930] hover:bg-gray-800"
-                  : navStyle === "light" 
-                    ? "bg-white text-[#15161a] hover:bg-gray-200" 
-                    : "bg-black text-white hover:bg-gray-800"
+            className={`rounded-full w-14 h-14 md:w-13 md:h-13 flex-shrink-0 hidden xl:flex ${
+             isAtTop 
+              ? " text-white bg-[#292930] hover:text-black hover:bg-white" 
+              : shouldUseDarkMode 
+                ? "bg-[#292930] text-white hover:text-black hover:bg-white"
+                : navStyle === "light" 
+                  ? "bg-white text-white hover:bg-[#292930]" 
+                  : "bg-[#292930] hover:text-black hover:bg-white"
             }`}
           >
-            <User className="w-4 h-4" />
+            <User className="w-6 h-7" />
           </Button>
           
           

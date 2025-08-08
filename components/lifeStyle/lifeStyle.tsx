@@ -71,10 +71,10 @@ export default function LifestyleSection() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_auto] items-start mb-16">
           <h2 className="text-4xl sm:text-5xl font-NeGrotesk text-blue-200 tracking-tight leading-snug md:leading-tight">
             Aligned<br />
-            <span className="font-liBaskerville text-blue-200">to your lifestyle</span>
+            <span className="font-liBaskerville text-7xl text-blue-200">to your lifestyle</span>
           </h2>
           <div className="flex justify-center flex-col mt-[5.2rem]">
-            <Button className={styles.ButtonArrow_button__K1nCt}>
+            <Button className={styles.ButtonArrow_button__K1nCt2}>
               Find a doctor
             </Button>
           </div>
@@ -127,7 +127,7 @@ export default function LifestyleSection() {
                   
                   <div className="flex mt-6 justify-start">
                     <Button 
-                      className={styles.ButtonArrow_button__K1nCt}
+                      className={styles.ButtonArrow_button__K1nCt2}
                     >
                       <span className="flex items-center gap-2">
                         {card.cta}
@@ -147,12 +147,12 @@ export default function LifestyleSection() {
   return (
     <section className="bg-[#15161a] py-24 px-6">
       {/* Heading and CTA */}
-      <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_auto] items-start mb-16">
-        <h2 className="text-4xl sm:text-5xl font-NeGrotesk text-blue-200 tracking-tight leading-snug md:leading-tight">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_auto] items-start mb-15 mt-[-10]">
+        <h2 className="text-4xl sm:text-8xl font-NeGrotesk text-[#d9edf7] tracking-tight leading-snug md:leading-tight">
           Aligned<br />
-          <span className="font-liBaskerville text-blue-200">to your lifestyle</span>
+          <span className="font-liBaskerville mt-5 text-7xl sm:text-8xl  text-[#d9edf7]">to your lifestyle</span>
         </h2>
-        <div className="flex justify-center flex-col mt-[5.2rem]">
+        <div className="flex justify-center flex-col mt-[12.2rem]">
           <Button className={styles.ButtonArrow_button__K1nCt2}>
             Find a doctor
           </Button>

@@ -67,10 +67,10 @@ const Testimonials = () => {
           {/* Right Side - Testimonial */}
           <div className="md:w-1/2">
             {/* Navigation Controls */}
-            <div className="flex items-center justify-left gap-4 mb-6">
+            <div className="flex items-center justify-left gap-5 mb-25">
               <button
                 onClick={goToPrevious}
-               
+               className="cursor-pointer"
                 aria-label="Previous testimonial"
               >
                 <img src="/arrow-left.svg" alt="" />
@@ -82,7 +82,7 @@ const Testimonials = () => {
 
               <button
                 onClick={goToNext}
-              
+              className="cursor-pointer"
                 aria-label="Next testimonial"
               >
                 <img src="/arrow.svg" alt="" />
@@ -98,7 +98,7 @@ const Testimonials = () => {
                 )}
               >
                 <img src="/qoute.svg" className="w-6 h-6 top 2px left pl-1" alt="" />
-               <p className="font-NeGrotesk text-3xl text-[#d9edf7] leading-relaxed mb-4">
+               <p className="font-NeGrotesk text-3xl pr-36 pl-0 text-[#d9edf7] leading-tight px-0 mt-2 mb-2">
                   {testimonials[activeIndex].quote}
                 </p>
 

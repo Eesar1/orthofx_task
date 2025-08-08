@@ -5,19 +5,19 @@ export function TrustedSection() {
     <section className="relative bg-[#15161a] text-white/40 overflow-hidden py-16 md:py-24">
       <div className="container mx-auto px-4 flex flex-col">
         {/* Top Row - Left Image */}
-        <div className="flex justify-start mb-1 md:mb-1">
+        <div className="flex justify-start pl-14 mb-4 md:mb-1 mt-[-39]">
           <Image
             src="/woman.png"
             alt="Smiling woman"
-            width={120}
-            height={120}
-            className="rounded-2xl object-cover w-[80px] h-[80px] md:w-[120px] md:h-[120px]"
+            width={270}
+            height={270}
+            className="rounded-4xl object-cover w-[85px] h-[85px] md:w-[175px] md:h-[175px]"
           />
         </div>
 
         {/* Text - Centered with proper line breaks */}
-        <div className="flex flex-col items-center text-center px-4 w-full sm:px-4 max-w-6xl mx-auto">
-          <h2 className="block text-4xl lg:text-6xl md:text-lg leading-[1.2] text-[#d9edf7]  font-sans">
+        <div className="flex flex-col items-center text-center px-9 w-full sm:px-7 max-w-xl mx-auto">
+          <h2 className="block text-4xl lg:text-6xl md:text-lg leading-[1] text-[#d9edf7]  font-sans">
             <span className="block text-center mx-auto max-w-xl w-full font-NeGrotesk">
               Trusted by patients and FDA-cleared 
             </span>
@@ -32,14 +32,14 @@ export function TrustedSection() {
         </div>
         
         {/* Bottom Right Image - Teeth */}
-        <div className="flex justify-end mt-5 md:mt-1">
+        <div className="flex justify-end mt-6 md:mt-7 pr-10">
           <div className="relative rounded-[1.5rem] overflow-hidden">
             <Image
               src="/teeth.png"
               alt="Aligners"
-              width={120}
-              height={120}
-              className="rounded-2xl w-[80px] h-[80px] md:w-[120px] md:h-[120px]"
+              width={170}
+              height={170}
+              className="rounded-4xl w-[85px] h-[85px] md:w-[175px] md:h-[175px]"
             />
           </div>
         </div>

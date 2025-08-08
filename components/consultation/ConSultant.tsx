@@ -130,7 +130,7 @@ const ConSultant = () => {
       <div className="absolute inset-0 h-full w-full rounded-4xl overflow-hidden">
         <div className="relative w-full h-full">
           <Image
-            src="/Doctor.png"
+            src="doctor.png"
             alt="Doctor background"
             fill
             className="object-cover object-center"
